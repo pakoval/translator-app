@@ -1,0 +1,12 @@
+.textarea {
+  width: 100%;
+  min-height: 350px;
+  height: auto;
+  background-color: $inputClr;
+  border: 1px solid $borderClr;
+  color: white;
+  padding: $padding;
+  font-size: 22px;
+  overflow: hidden;
+  transition: .1s ease-out;
+}

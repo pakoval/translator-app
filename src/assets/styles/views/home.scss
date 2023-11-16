@@ -1,0 +1,18 @@
+.home,
+.home__content {
+  display: flex;
+  justify-content: center;
+}
+
+.home {
+  align-items: center;
+  min-height: 100vh;
+  background-color: $bg;
+  padding: 200px $padding;
+
+  &__content {
+    width: 100%;
+    gap: 10px;
+    max-width: 1542px;
+  }
+}
