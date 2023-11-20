@@ -1,12 +1,11 @@
 <template>
-  <textarea class="textarea" :name="name" @input="textareaAdjust"></textarea>
+  <textarea class="textarea" @input="textareaAdjust"></textarea>
 </template>
 
 <script lang="ts">
-import { Vue, Component, Prop } from "vue-property-decorator";
+import { Vue, Component } from "vue-property-decorator";
 @Component
 export default class TextArea extends Vue {
-  @Prop({ default: "" }) readonly name!: string;
   textareaAdjust(e: KeyboardEvent) {
     const textarea = e.target as HTMLTextAreaElement;
     textarea.style.height = "auto";

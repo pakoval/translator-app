@@ -5,7 +5,7 @@
   background-color: $inputClr;
   border: 1px solid $borderClr;
   color: $white;
-  padding: $padding $padding 40px;
+  padding: $base-padding $base-padding 40px;
   font-size: 22px;
   resize: none;
   transition: .1s ease-out;
@@ -19,8 +19,8 @@
 
   &__length {
     position: absolute;
-    right: $padding;
-    bottom: $padding;
+    right: $base-padding;
+    bottom: $base-padding;
     color: $white;
     font-size: 14px;
     z-index: 1;

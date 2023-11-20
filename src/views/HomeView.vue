@@ -2,14 +2,14 @@
   <div class="home">
     <div class="home__content">
       <div class="textarea-block">
-        <TextArea v-model="textareaContent.input" name="inputTextarea" />
+        <TextArea v-model="inputTextarea" name="inputTextarea" />
         <p class="textarea-block__length">
-          {{ textareaContent.input.length }} / {{ maxLength }}
+          {{ inputTextarea.length }} / {{ maxLength }}
         </p>
       </div>
 
       <div class="textarea-block">
-        <TextArea v-model="textareaContent.output" name="outputTextarea" />
+        <TextArea />
       </div>
     </div>
   </div>
@@ -18,7 +18,7 @@
 <script lang="ts">
 import { Component, Vue } from "vue-property-decorator";
 import TextArea from "@/components/TextArea.vue";
-import { IPost, textareaContent } from "@/views/types";
+import { IPost } from "@/views/types";
 import axios from "axios";
 
 @Component({
@@ -29,11 +29,8 @@ import axios from "axios";
 export default class HomeView extends Vue {
   post: IPost | null = null;
   maxLength = 5000;
-  textareaOptions: object = {};
-  textareaContent: textareaContent = {
-    input: "",
-    output: "",
-  };
+  inputTextarea = "";
+  outputTextarea = "";
   private async getPost() {
     try {
       const { data } = await axios.get(
