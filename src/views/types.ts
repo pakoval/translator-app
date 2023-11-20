@@ -4,5 +4,9 @@ interface IPost {
   title: string;
   userId: number;
 }
+interface textareaContent {
+  input: string;
+  output: string;
+}
 
-export { IPost };
+export { IPost, textareaContent };
