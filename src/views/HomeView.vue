@@ -1,8 +1,16 @@
 <template>
   <div class="home">
     <div class="home__content">
-      <TextArea />
-      <TextArea />
+      <div class="textarea-block">
+        <TextArea v-model="inputTextarea" name="inputTextarea" />
+        <p class="textarea-block__length">
+          {{ inputTextarea.length }} / {{ maxLength }}
+        </p>
+      </div>
+
+      <div class="textarea-block">
+        <TextArea />
+      </div>
     </div>
   </div>
 </template>
@@ -20,9 +28,9 @@ import axios from "axios";
 })
 export default class HomeView extends Vue {
   post: IPost | null = null;
-  async mounted() {
-    // await this.getPost();
-  }
+  maxLength = 5000;
+  inputTextarea = "";
+  outputTextarea = "";
   private async getPost() {
     try {
       const { data } = await axios.get(

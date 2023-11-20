@@ -4,9 +4,25 @@
   height: auto;
   background-color: $inputClr;
   border: 1px solid $borderClr;
-  color: white;
-  padding: $padding;
+  color: $white;
+  padding: $base-padding $base-padding 40px;
   font-size: 22px;
-  overflow: hidden;
+  resize: none;
   transition: .1s ease-out;
+  overflow: hidden;
+  outline: none;
+}
+.textarea-block {
+  position: relative;
+  width: 100%;
+  height: auto;
+
+  &__length {
+    position: absolute;
+    right: $base-padding;
+    bottom: $base-padding;
+    color: $white;
+    font-size: 14px;
+    z-index: 1;
+  }
 }

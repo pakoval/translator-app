@@ -1,18 +1,20 @@
 <template>
-  <textarea class="textarea" @keyup="textAreaAdjust" ref="txtArea"></textarea>
+  <textarea class="textarea" @input="textareaAdjust"></textarea>
 </template>
 
 <script lang="ts">
 import { Vue, Component } from "vue-property-decorator";
-
-@Component({})
+@Component
 export default class TextArea extends Vue {
-  textAreaAdjust() {
-    const textarea: HTMLTextAreaElement | null = this.$refs
-      .txtArea as HTMLTextAreaElement;
-    if (textarea) {
-      textarea.style.height = Math.max(25, textarea.scrollHeight) + "px";
-    }
+  textareaAdjust(e: KeyboardEvent) {
+    const textarea = e.target as HTMLTextAreaElement;
+    textarea.style.height = "auto";
+    textarea.style.height = `${textarea.scrollHeight}px`;
+    this.$emit("input", textarea.value);
+
+    textarea.value.length >= 400
+      ? (textarea.style.fontSize = "18px")
+      : (textarea.style.fontSize = "22px");
   }
 }
 </script>
