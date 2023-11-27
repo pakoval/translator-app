@@ -20,7 +20,7 @@ import { Component, Vue } from "vue-property-decorator";
 import TextArea from "@/components/TextArea.vue";
 import {
   addProduct,
-  createURL,
+  sendToTranslate,
   deleteProduct,
   getPhones,
 } from "@/translation/request";
@@ -38,12 +38,12 @@ export default class HomeView extends Vue {
 
   sendTextDebounce = debounce(this.sendText, 1000);
   async sendText() {
-    this.outputTextarea = await createURL("en", "uk", this.inputTextarea);
+    this.outputTextarea = await sendToTranslate("en", "uk", this.inputTextarea);
   }
-  mounted() {
-    getPhones();
-    addProduct();
-    deleteProduct(1);
+  async mounted() {
+    await getPhones();
+    await addProduct();
+    await deleteProduct(1);
   }
 }
 </script>

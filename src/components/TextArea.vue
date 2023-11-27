@@ -10,7 +10,7 @@
 import { Vue, Component, Prop } from "vue-property-decorator";
 @Component
 export default class TextArea extends Vue {
-  @Prop({ default: "" }) value!: string;
+  @Prop({ default: "" }) readonly value!: string;
   textareaAdjust(e: KeyboardEvent) {
     const textarea = e.target as HTMLTextAreaElement;
     this.$emit("input", textarea.value);

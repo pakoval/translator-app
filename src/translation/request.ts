@@ -3,7 +3,11 @@ import axios from "axios";
 const BASE_URL =
   "https://translate.googleapis.com/translate_a/single?client=gtx&sl=";
 
-export async function createURL(source: string, target: string, text: string) {
+export async function sendToTranslate(
+  source: string,
+  target: string,
+  text: string
+) {
   const url = `${
     BASE_URL + source + "&tl=" + target + "&dt=t&q=" + encodeURI(text)
   }`;
