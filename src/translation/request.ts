@@ -14,7 +14,9 @@ export async function sendToTranslate(
 
   try {
     const { data } = await axios.get(url);
-    // data[0][0][0] here gets results of translation
+    // data[0] Array with translation elements
+    // data[0][0] Exact array with our entered and translated text
+    // data[0][0][0] Translated text as string
     return data[0][0][0];
   } catch (error) {
     console.log(error);
