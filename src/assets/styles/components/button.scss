@@ -1,0 +1,22 @@
+.button {
+  all: unset;
+  display: flex;
+  gap: 5px;
+  color: yellow;
+
+  &:hover {
+    cursor: pointer;
+  }
+
+  &__copy,
+  &__copy--disabled {
+    position: absolute;
+    bottom: $base-padding;
+    left: $base-padding;
+  }
+
+  &__copy--disabled {
+    opacity: 0.5;
+    pointer-events:none;
+  }
+}
