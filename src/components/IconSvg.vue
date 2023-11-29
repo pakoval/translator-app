@@ -14,7 +14,7 @@
 import { Vue, Component, Prop } from "vue-property-decorator";
 import { IIcon } from "@/components/types";
 
-@Component({})
+@Component
 export default class IconSvg extends Vue {
   @Prop({ default: {} }) readonly icon!: IIcon;
   get setIconClass() {

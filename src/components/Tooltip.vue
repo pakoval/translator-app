@@ -7,7 +7,7 @@
 <script lang="ts">
 import { Vue, Component, Prop } from "vue-property-decorator";
 
-@Component({})
+@Component
 export default class Tooltip extends Vue {
   @Prop({ default: "" }) readonly message!: string;
 }

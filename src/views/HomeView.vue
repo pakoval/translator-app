@@ -9,7 +9,7 @@
       </div>
 
       <div class="textarea-block">
-        <TextArea :value="outputTextarea" :readonly="true" />
+        <TextArea :value="outputTextarea" :isReadonly="true" />
         <Button
           v-clipboard:copy="outputTextarea"
           v-clipboard:success="copySuccess"
