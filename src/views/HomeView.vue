@@ -15,12 +15,11 @@
           v-clipboard:success="copySuccess"
           v-clipboard:error="copyError"
           :class="copyBtnClass"
-          @click.once="isCopyMessage = !isCopyMessage"
         >
           <IconSvg :icon="icon" />
         </Button>
         <transition name="fade">
-          <Tooltip v-if="isCopyMessage" :message="copyMessage" />
+          <Tooltip v-if="copyMessage" :message="copyMessage" />
         </transition>
       </div>
     </div>
@@ -55,7 +54,6 @@ export default class HomeView extends Vue {
   private inputTextarea = "";
   private outputTextarea = "";
   copyMessage = "";
-  isCopyMessage = false;
   icon: IIcon = {
     name: "copy",
     width: "18px",
@@ -70,10 +68,8 @@ export default class HomeView extends Vue {
   copySuccess = () => this.setTooltipMsg("Copied successful");
   setTooltipMsg(msg: string) {
     this.copyMessage = msg;
-    this.isCopyMessage = true;
     setTimeout(() => {
       this.copyMessage = "";
-      this.isCopyMessage = false;
     }, 2000);
   }
   async sendText() {
