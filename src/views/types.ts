@@ -1,8 +1,11 @@
-interface IPost {
+export interface IPost {
   body: string;
   id: number;
   title: string;
   userId: number;
 }
 
-export { IPost };
+export interface ILanguage {
+  language: string;
+  code: string;
+}

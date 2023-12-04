@@ -11,16 +11,11 @@ export async function sendToTranslate(
   const url = `${
     BASE_URL + source + "&tl=" + target + "&dt=t&q=" + encodeURI(text)
   }`;
-
-  try {
-    const { data } = await axios.get(url);
-    // data[0] Array with translation elements
-    // data[0][0] Exact array with our entered and translated text
-    // data[0][0][0] Translated text as string
-    return data[0][0][0];
-  } catch (error) {
-    console.log(error);
-  }
+  const { data } = await axios.get(url);
+  // data[0] Array with translation elements
+  // data[0][0] Exact array with our entered and translated text
+  // data[0][0][0] Translated text as string
+  return data[0][0][0];
 }
 
 export async function getPhones() {
