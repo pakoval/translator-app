@@ -1,10 +1,9 @@
 <template>
-  <select class="select" :name="name" @change="changeOption">
+  <select v-model="selected" class="select">
     <option
       v-for="(item, idx) in list"
       :key="idx"
       :value="item.code"
-      :selected="item.code === selectedOption"
       class="select__option"
     >
       {{ item.language }}
@@ -13,18 +12,13 @@
 </template>
 
 <script lang="ts">
-import { Vue, Component, Prop } from "vue-property-decorator";
+import { Vue, Component, Prop, ModelSync } from "vue-property-decorator";
 import { ILanguage } from "@/views/types";
-
+import { Languages } from "@/languages";
 @Component
 export default class Select extends Vue {
   @Prop({ default: [] }) list!: ILanguage[];
-  @Prop({ required: true }) name!: string;
-  @Prop({ required: true }) selectedOption!: string;
-
-  changeOption(e: Event) {
-    const option = e.target as HTMLSelectElement;
-    this.$emit("change", option.value, option.name);
-  }
+  @Prop({ required: true }) selectedOption!: Languages;
+  @ModelSync("selectedOption", "change") selected!: Languages;
 }
 </script>

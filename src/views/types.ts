@@ -1,3 +1,5 @@
+import { Languages } from "@/languages";
+
 export interface IPost {
   body: string;
   id: number;
@@ -7,5 +9,7 @@ export interface IPost {
 
 export interface ILanguage {
   language: string;
-  code: string;
+  code: Languages;
 }
+
+export type TLangs = "targetLang" | "sourceLang";

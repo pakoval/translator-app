@@ -1,9 +1,18 @@
 import { ILanguage } from "@/views/types";
+
+export enum Languages {
+  UK = "uk",
+  EN = "en",
+  JA = "ja",
+  BG = "bg",
+  GR = "gr",
+  PL = "pl",
+}
 export const langs: ILanguage[] = [
-  { language: "Ukrainian", code: "uk" },
-  { language: "English", code: "en" },
-  { language: "Japanese", code: "ja" },
-  { language: "Bulgarian", code: "bg" },
-  { language: "Germany", code: "de" },
-  { language: "Polish", code: "pl" },
+  { language: "Ukrainian", code: Languages.UK },
+  { language: "English", code: Languages.EN },
+  { language: "Japanese", code: Languages.JA },
+  { language: "Bulgarian", code: Languages.BG },
+  { language: "Germany", code: Languages.GR },
+  { language: "Polish", code: Languages.PL },
 ];

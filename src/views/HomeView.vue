@@ -4,10 +4,9 @@
       <div class="home__option">
         <span class="home__subtitle">Language:</span>
         <Select
-          :selectedOption="sourceLang"
+          :selectedOption="selectedLangs.sourceLang"
           :list="languages"
-          name="sourceLang"
-          @change="changeLanguage"
+          @change="(args) => changeLanguage(args, 'sourceLang')"
         />
       </div>
       <Button @click="swapLanguages">
@@ -16,10 +15,9 @@
       <div class="home__option">
         <span class="home__subtitle">Translate:</span>
         <Select
-          :selectedOption="targetLang"
+          :selectedOption="selectedLangs.targetLang"
           :list="languages"
-          name="targetLang"
-          @change="changeLanguage"
+          @change="(value) => changeLanguage(value, 'targetLang')"
         />
       </div>
     </div>
@@ -35,7 +33,7 @@
         <Loader v-if="loading" />
         <TextArea
           :value="outputTextarea"
-          :isReadonly="true"
+          isReadonly="true"
           placeholder="Translation"
           :class="{ 'textarea--error': isError, 'textarea--loading': loading }"
         />
@@ -69,10 +67,10 @@ import Button from "@/components/Button.vue";
 import Tooltip from "@/components/Tooltip.vue";
 import IconSvg from "@/components/IconSvg.vue";
 import { IIcon } from "@/components/types";
-import { langs } from "@/languages";
+import { langs, Languages } from "@/languages";
 import Loader from "@/components/Loader.vue";
 import Select from "@/components/Select.vue";
-
+import { TLangs } from "@/views/types";
 @Component({
   components: {
     Select,
@@ -102,8 +100,10 @@ export default class HomeView extends Vue {
     height: "18px",
   };
   languages = langs;
-  targetLang = "uk";
-  sourceLang = "en";
+  selectedLangs: Record<TLangs, Languages> = {
+    targetLang: Languages.UK,
+    sourceLang: Languages.EN,
+  };
   get copyBtnClass() {
     return this.outputTextarea && !this.isError && !this.loading
       ? "button__copy"
@@ -119,14 +119,15 @@ export default class HomeView extends Vue {
       this.copyMessage = "";
     }, 2000);
   }
-  async changeLanguage(value: string, selectName: string) {
-    if (selectName === "sourceLang" || selectName === "targetLang") {
-      this[selectName] = value;
-      await this.sendText();
-    }
+  async changeLanguage(value: Languages, selectName: TLangs) {
+    this.selectedLangs[selectName] = value;
+    await this.sendText();
   }
   async swapLanguages() {
-    [this.targetLang, this.sourceLang] = [this.sourceLang, this.targetLang];
+    [this.selectedLangs.targetLang, this.selectedLangs.sourceLang] = [
+      this.selectedLangs.sourceLang,
+      this.selectedLangs.targetLang,
+    ];
     this.inputTextarea = this.outputTextarea;
     this.outputTextarea = "";
     await this.sendText();
@@ -137,8 +138,8 @@ export default class HomeView extends Vue {
       this.loading = true;
       try {
         this.outputTextarea = await sendToTranslate(
-          this.sourceLang,
-          this.targetLang,
+          this.selectedLangs.sourceLang,
+          this.selectedLangs.targetLang,
           text
         );
         this.isError = false;
@@ -154,9 +155,9 @@ export default class HomeView extends Vue {
   }
 
   async mounted() {
-    await getPhones();
-    await addProduct();
-    await deleteProduct(1);
+    // await getPhones();
+    // await addProduct();
+    // await deleteProduct(1);
   }
 }
 </script>
