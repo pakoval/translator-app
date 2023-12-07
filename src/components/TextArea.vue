@@ -3,6 +3,7 @@
     class="textarea"
     :value="setValue()"
     :readonly="isReadonly"
+    :placeholder="placeholder"
     @input="textareaAdjust"
   ></textarea>
 </template>
@@ -11,8 +12,9 @@
 import { Vue, Component, Prop } from "vue-property-decorator";
 @Component
 export default class TextArea extends Vue {
-  @Prop({ default: "" }) readonly value!: string;
-  @Prop({ default: false }) readonly isReadonly!: boolean;
+  @Prop({ default: "" }) value!: string;
+  @Prop({ default: false }) isReadonly!: boolean;
+  @Prop({ default: "" }) placeholder!: string;
   textareaAdjust(e: KeyboardEvent) {
     const textarea = e.target as HTMLTextAreaElement;
     this.$emit("input", textarea.value);

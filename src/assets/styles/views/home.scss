@@ -5,6 +5,7 @@
 }
 
 .home {
+  flex-direction: column;
   align-items: center;
   min-height: 100vh;
   background-color: $bg;
@@ -15,4 +16,32 @@
     gap: 10px;
     max-width: 1542px;
   }
+
+  &__select-block {
+    display: flex;
+    gap: 10px;
+    justify-content: space-between;
+    width: 100%;
+    max-width: 1542px;
+    margin-bottom: $base-padding;
+  }
+
+  &__subtitle {
+    color: $white;
+    font-size: 20px;
+    margin-right: 10px;
+  }
+
+  &__option {
+    margin-left: 16px;
+  }
+}
+
+@media screen and (max-width: 800px) {
+  .home {
+    &__content {
+      flex-wrap: wrap;
+    }
+  }
+
 }
