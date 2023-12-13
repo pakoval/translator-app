@@ -35,6 +35,27 @@
   &__option {
     margin-left: 16px;
   }
+
+  .saved-translations {
+    width: max-content;
+    margin-top: 20px;
+  }
+  .save-text {
+    position: absolute;
+    right: 10px;
+    top: $base-padding;
+  }
+}
+
+.slide {
+  &-leave-active,
+  &-enter-active {
+    transition: 0.3s;
+  }
+  &-enter,
+  &-leave-to {
+    transform: translate(450px, 0);
+  }
 }
 
 @media screen and (max-width: 800px) {
@@ -43,5 +64,4 @@
       flex-wrap: wrap;
     }
   }
-
 }
