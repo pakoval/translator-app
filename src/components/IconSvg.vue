@@ -1,6 +1,6 @@
 <template>
   <svg
-    v-if="icon"
+    v-if="icon.name"
     class="icon"
     :class="setIconClass"
     :width="icon.width"
@@ -16,7 +16,7 @@ import { IIcon } from "@/components/types";
 
 @Component
 export default class IconSvg extends Vue {
-  @Prop({ default: {} }) readonly icon!: IIcon;
+  @Prop({ default: () => ({}) }) readonly icon!: IIcon;
   get setIconClass() {
     return [`icon-${this.icon.name}`];
   }
