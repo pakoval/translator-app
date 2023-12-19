@@ -16,7 +16,7 @@ import { IIcon } from "@/components/types";
 
 @Component
 export default class IconSvg extends Vue {
-  @Prop({ default: () => ({}) }) readonly icon!: IIcon;
+  @Prop({ required: true }) icon!: IIcon;
   get setIconClass() {
     return [`icon-${this.icon.name}`];
   }

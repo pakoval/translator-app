@@ -24,6 +24,8 @@ describe("IconSvg.vue", () => {
   it("renders with props", () => {
     expect(wrapper.props("icon")).toBeTruthy();
     expect(wrapper.props("icon")).toEqual(iconData);
+    expect(wrapper.find("svg").element.getAttribute("width")).toEqual("24px");
+    expect(wrapper.find("svg").element.getAttribute("height")).toEqual("24px");
   });
   it("set icon class ", () => {
     const svgEl = wrapper.find("svg");

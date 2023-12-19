@@ -42,7 +42,7 @@
 </template>
 
 <script lang="ts">
-import { Vue, Component, Prop, Emit } from "vue-property-decorator";
+import { Vue, Component, Prop, Emit, Watch } from "vue-property-decorator";
 import IconSvg from "@/components/IconSvg.vue";
 import { IIcon, ITranslation } from "@/components/types";
 import Button from "@/components/Button.vue";
@@ -52,37 +52,49 @@ import Button from "@/components/Button.vue";
 })
 export default class SavedTranslations extends Vue {
   @Prop({ default: false }) openSidebar!: boolean;
-  @Prop({ default: [] }) translations!: Array<ITranslation>;
+  @Prop({ required: false }) translation!: ITranslation | null;
   get setSidebarClass() {
     return this.openSidebar ? "translations" : "translations hide";
   }
+  translations: Array<ITranslation> = [];
   iconClose: IIcon = {
     name: "close",
     width: "16px",
     height: "16px",
   };
-
   iconStar: IIcon = {
     name: "star",
     width: "22px",
     height: "28px",
   };
-
   iconArrow: IIcon = {
     name: "exchange",
     width: "16px",
     height: "28px",
   };
-  @Emit("hide")
-  hide() {
-    return !this.openSidebar;
+  getTranslations() {
+    this.translations = JSON.parse(localStorage.translations);
   }
-  @Emit("remove-item")
   removeItem(id: number) {
     const savedItems = JSON.parse(localStorage.translations);
     const idx = savedItems.findIndex((el: ITranslation) => el.id === id);
     savedItems.splice(idx, 1);
-    return savedItems;
+    localStorage.translations = JSON.stringify(savedItems);
+    this.getTranslations();
+  }
+  @Emit("hide")
+  hide() {
+    return !this.openSidebar;
+  }
+  mounted() {
+    this.getTranslations();
+  }
+  @Watch("translation", { deep: true })
+  onTranslationChanged(newValue: ITranslation) {
+    if (newValue) {
+      this.translations.push(newValue);
+      localStorage.translations = JSON.stringify(this.translations);
+    }
   }
 }
 </script>

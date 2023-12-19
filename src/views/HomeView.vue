@@ -55,11 +55,10 @@
     </div>
     <transition name="slide">
       <SavedTranslations
-        v-if="openSidebar"
-        :translations="translations"
+        v-show="openSidebar"
         :open-sidebar="openSidebar"
+        :translation="translation"
         @hide="(isHidden) => (openSidebar = isHidden)"
-        @remove-item="(updatedItems) => (translations = updatedItems)"
       />
     </transition>
     <Button class="saved-translations" @click="openSidebar = !openSidebar">
@@ -127,7 +126,7 @@ export default class HomeView extends Vue {
     targetLang: Languages.UK,
     sourceLang: Languages.EN,
   };
-  translations: Array<ITranslation> = [];
+  translation: ITranslation | null = null;
   get copyBtnClass() {
     return this.outputTextarea && !this.isError && !this.loading
       ? "button__copy"
@@ -149,14 +148,13 @@ export default class HomeView extends Vue {
     }
   }
   saveTranslation() {
-    const translation: ITranslation = {
+    this.translation = {
       id: Date.now(),
       inputText: this.inputTextarea,
       translation: this.outputTextarea,
       targetLang: this.selectedLangs.targetLang,
       sourceLang: this.selectedLangs.sourceLang,
     };
-    this.translations.push(translation);
   }
   async changeLanguage(value: Languages, selectName: TLangs) {
     this.selectedLangs[selectName] = value;
@@ -193,22 +191,15 @@ export default class HomeView extends Vue {
     }
   }
   async mounted() {
-    await getPhones();
-    await addProduct();
-    await deleteProduct(1);
+    // await getPhones();
+    // await addProduct();
+    // await deleteProduct(1);
     this.checkLocalStorage("selectedLangs");
-    this.checkLocalStorage("translations");
   }
 
   @Watch("selectedLangs", { deep: true })
   onLangsChanged(newValue: Record<TLangs, Languages>) {
     localStorage.selectedLangs = JSON.stringify(newValue);
-  }
-  @Watch("translations", { deep: true })
-  onTranslationsChanged(newValue: ITranslation) {
-    if (this.translations.length > 0) {
-      localStorage.translations = JSON.stringify(newValue);
-    }
   }
 }
 </script>
