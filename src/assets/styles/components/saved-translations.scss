@@ -1,0 +1,75 @@
+.translations {
+  width: 450px;
+  height: 100vh;
+  overflow: scroll;
+  position: absolute;
+  right: 0;
+  z-index: 10;
+  background-color: $bg;
+  border-left: 1px solid $borderClr;
+  color: $white;
+  transition: .3s ease-out;
+
+  &.hide {
+    right: -450px;
+  }
+
+  &__header,
+  &__item {
+    padding: $base-padding;
+  }
+
+  &__header {
+
+    &-top {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 10px;
+    }
+
+    &-title {
+      font-size: 22px;
+      font-weight: 600;
+      margin-bottom: 10px;
+    }
+  }
+
+  &__item,
+  &__item-lang {
+    display: flex;
+    align-items: center;
+  }
+
+  &__item {
+    justify-content: space-between;
+    gap: 10px;
+    align-items: center;
+    border-top: 1px solid $borderClr;
+    border-bottom: 1px solid $borderClr;
+
+    &-info {
+      flex-grow: 1;
+    }
+
+    &-lang {
+      gap: 5px;
+      margin-bottom: 10px;
+      font-size: 14px;
+      color: $yellow;
+    }
+
+    &-input-text {
+      font-size: 14px;
+      font-style: italic;
+    }
+
+    &-text {
+      color: $yellow;
+    }
+
+    &-divider {
+      width: 100%;
+    }
+  }
+}

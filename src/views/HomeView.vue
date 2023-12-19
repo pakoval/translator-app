@@ -30,6 +30,9 @@
       </div>
 
       <div class="textarea-block">
+        <Button class="save-text" @click="saveTranslation">
+          <IconSvg :icon="iconStar" />
+        </Button>
         <Loader v-if="loading" />
         <TextArea
           :value="outputTextarea"
@@ -50,11 +53,22 @@
         </transition>
       </div>
     </div>
+    <transition name="slide">
+      <SavedTranslations
+        v-show="openSidebar"
+        :open-sidebar="openSidebar"
+        :translation="translation"
+        @hide="(isHidden) => (openSidebar = isHidden)"
+      />
+    </transition>
+    <Button class="saved-translations" @click="openSidebar = !openSidebar">
+      <IconSvg :icon="iconStar" /> Saved
+    </Button>
   </div>
 </template>
 
 <script lang="ts">
-import { Component, Vue } from "vue-property-decorator";
+import { Component, Vue, Watch } from "vue-property-decorator";
 import TextArea from "@/components/TextArea.vue";
 import {
   addProduct,
@@ -66,13 +80,15 @@ import { debounce } from "lodash";
 import Button from "@/components/Button.vue";
 import Tooltip from "@/components/Tooltip.vue";
 import IconSvg from "@/components/IconSvg.vue";
-import { IIcon } from "@/components/types";
+import { IIcon, ITranslation } from "@/components/types";
 import { langs, Languages } from "@/languages";
 import Loader from "@/components/Loader.vue";
 import Select from "@/components/Select.vue";
 import { TLangs } from "@/views/types";
+import SavedTranslations from "@/components/SavedTranslations.vue";
 @Component({
   components: {
+    SavedTranslations,
     Select,
     Loader,
     IconSvg,
@@ -88,22 +104,29 @@ export default class HomeView extends Vue {
   copyMessage = "";
   isError = false;
   loading = false;
+  openSidebar = false;
 
   iconCopy: IIcon = {
     name: "copy",
-    width: "18px",
-    height: "18px",
+    width: "28px",
+    height: "28px",
   };
   iconMirror: IIcon = {
     name: "exchange",
-    width: "18px",
-    height: "18px",
+    width: "28px",
+    height: "28px",
+  };
+  iconStar: IIcon = {
+    name: "star",
+    width: "22px",
+    height: "28px",
   };
   languages = langs;
   selectedLangs: Record<TLangs, Languages> = {
     targetLang: Languages.UK,
     sourceLang: Languages.EN,
   };
+  translation: ITranslation | null = null;
   get copyBtnClass() {
     return this.outputTextarea && !this.isError && !this.loading
       ? "button__copy"
@@ -118,6 +141,20 @@ export default class HomeView extends Vue {
     setTimeout(() => {
       this.copyMessage = "";
     }, 2000);
+  }
+  checkLocalStorage<TKey extends keyof HomeView>(key: TKey) {
+    if (localStorage[key]) {
+      this[key] = JSON.parse(localStorage[key]);
+    }
+  }
+  saveTranslation() {
+    this.translation = {
+      id: Date.now(),
+      inputText: this.inputTextarea,
+      translation: this.outputTextarea,
+      targetLang: this.selectedLangs.targetLang,
+      sourceLang: this.selectedLangs.sourceLang,
+    };
   }
   async changeLanguage(value: Languages, selectName: TLangs) {
     this.selectedLangs[selectName] = value;
@@ -153,11 +190,16 @@ export default class HomeView extends Vue {
       this.outputTextarea = "";
     }
   }
-
   async mounted() {
     // await getPhones();
     // await addProduct();
     // await deleteProduct(1);
+    this.checkLocalStorage("selectedLangs");
+  }
+
+  @Watch("selectedLangs", { deep: true })
+  onLangsChanged(newValue: Record<TLangs, Languages>) {
+    localStorage.selectedLangs = JSON.stringify(newValue);
   }
 }
 </script>
