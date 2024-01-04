@@ -100,7 +100,7 @@ import SavedTranslations from "@/components/SavedTranslations.vue";
 export default class HomeView extends Vue {
   maxLength = 5000;
   private inputTextarea = "";
-  private outputTextarea = "";
+  outputTextarea = "";
   copyMessage = "";
   isError = false;
   loading = false;
@@ -191,9 +191,6 @@ export default class HomeView extends Vue {
     }
   }
   async mounted() {
-    // await getPhones();
-    // await addProduct();
-    // await deleteProduct(1);
     this.checkLocalStorage("selectedLangs");
   }
 
