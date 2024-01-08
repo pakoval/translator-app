@@ -20,7 +20,7 @@ describe("sendToTranslate", () => {
       "hi"
     )}`;
     const res = await sendToTranslate(sourceLang, targetLang, "hi");
-    expect(mockResponse.data[0][0][0]).toEqual(res);
+    expect(res).toEqual(mockResponse.data[0][0][0]);
     expect(axios.get).toHaveBeenCalled();
     expect(axios.get).toHaveBeenCalledWith(url);
   });
