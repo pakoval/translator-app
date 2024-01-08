@@ -70,12 +70,7 @@
 <script lang="ts">
 import { Component, Vue, Watch } from "vue-property-decorator";
 import TextArea from "@/components/TextArea.vue";
-import {
-  addProduct,
-  sendToTranslate,
-  deleteProduct,
-  getPhones,
-} from "@/translation/request";
+import { sendToTranslate } from "@/translation/request";
 import { debounce } from "lodash";
 import Button from "@/components/Button.vue";
 import Tooltip from "@/components/Tooltip.vue";
@@ -100,7 +95,7 @@ import SavedTranslations from "@/components/SavedTranslations.vue";
 export default class HomeView extends Vue {
   maxLength = 5000;
   private inputTextarea = "";
-  private outputTextarea = "";
+  outputTextarea = "";
   copyMessage = "";
   isError = false;
   loading = false;
@@ -191,9 +186,6 @@ export default class HomeView extends Vue {
     }
   }
   async mounted() {
-    // await getPhones();
-    // await addProduct();
-    // await deleteProduct(1);
     this.checkLocalStorage("selectedLangs");
   }
 
