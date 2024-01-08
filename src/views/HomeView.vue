@@ -70,12 +70,7 @@
 <script lang="ts">
 import { Component, Vue, Watch } from "vue-property-decorator";
 import TextArea from "@/components/TextArea.vue";
-import {
-  addProduct,
-  sendToTranslate,
-  deleteProduct,
-  getPhones,
-} from "@/translation/request";
+import { sendToTranslate } from "@/translation/request";
 import { debounce } from "lodash";
 import Button from "@/components/Button.vue";
 import Tooltip from "@/components/Tooltip.vue";
