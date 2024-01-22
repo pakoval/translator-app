@@ -71,13 +71,13 @@ describe("SelectLanguages", () => {
       sourceLang: Languages.UK,
     };
     instance.changeStorageLanguages(payload);
-    expect(langsCheck).toEqual(instance.selectedLanguages);
+    expect(instance.selectedLanguages).toEqual(langsCheck);
   });
   it("should set langs from localStorage to selectedLanguages", () => {
     const selectedLangsMock = JSON.parse(
       localStorage.getItem("selectedLangs") || "{}"
     );
     instance.getSelectedLanguages();
-    expect(selectedLangsMock).toEqual(instance.selectedLangs);
+    expect(instance.selectedLangs).toEqual(selectedLangsMock);
   });
 });
