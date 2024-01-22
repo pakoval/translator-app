@@ -97,4 +97,5 @@ export default class SavedTranslations extends Vue {
     }
   }
 }
+// TODO: test component, props, emit, watch, getTranslations, removeItem
 </script>

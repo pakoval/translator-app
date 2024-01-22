@@ -68,7 +68,7 @@
 </template>
 
 <script lang="ts">
-import { Component, Vue, Watch } from "vue-property-decorator";
+import { Component, Vue } from "vue-property-decorator";
 import TextArea from "@/components/TextArea.vue";
 import { sendToTranslate } from "@/translation/request";
 import { debounce } from "lodash";
@@ -81,6 +81,7 @@ import Loader from "@/components/Loader.vue";
 import Select from "@/components/Select.vue";
 import { TLangs } from "@/views/types";
 import SavedTranslations from "@/components/SavedTranslations.vue";
+import { selectLanguagesModule } from "@/store/modules/SelectLanguages";
 @Component({
   components: {
     SavedTranslations,
@@ -117,15 +118,15 @@ export default class HomeView extends Vue {
     height: "28px",
   };
   languages = langs;
-  selectedLangs: Record<TLangs, Languages> = {
-    targetLang: Languages.UK,
-    sourceLang: Languages.EN,
-  };
   translation: ITranslation | null = null;
   get copyBtnClass() {
     return this.outputTextarea && !this.isError && !this.loading
       ? "button__copy"
       : "button__copy--disabled";
+  }
+
+  get selectedLangs() {
+    return selectLanguagesModule.selectedLangs;
   }
 
   sendTextDebounce = debounce(this.sendText, 1000);
@@ -137,11 +138,6 @@ export default class HomeView extends Vue {
       this.copyMessage = "";
     }, 2000);
   }
-  checkLocalStorage<TKey extends keyof HomeView>(key: TKey) {
-    if (localStorage[key]) {
-      this[key] = JSON.parse(localStorage[key]);
-    }
-  }
   saveTranslation() {
     this.translation = {
       id: Date.now(),
@@ -152,14 +148,11 @@ export default class HomeView extends Vue {
     };
   }
   async changeLanguage(value: Languages, selectName: TLangs) {
-    this.selectedLangs[selectName] = value;
+    selectLanguagesModule.changeStorageLanguages({ value, selectName });
     await this.sendText();
   }
   async swapLanguages() {
-    [this.selectedLangs.targetLang, this.selectedLangs.sourceLang] = [
-      this.selectedLangs.sourceLang,
-      this.selectedLangs.targetLang,
-    ];
+    selectLanguagesModule.swapStorageLanguages();
     this.inputTextarea = this.outputTextarea;
     this.outputTextarea = "";
     await this.sendText();
@@ -185,13 +178,8 @@ export default class HomeView extends Vue {
       this.outputTextarea = "";
     }
   }
-  async mounted() {
-    this.checkLocalStorage("selectedLangs");
-  }
-
-  @Watch("selectedLangs", { deep: true })
-  onLangsChanged(newValue: Record<TLangs, Languages>) {
-    localStorage.selectedLangs = JSON.stringify(newValue);
+  created() {
+    selectLanguagesModule.getSelectedLanguages();
   }
 }
 </script>
