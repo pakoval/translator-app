@@ -27,19 +27,22 @@ describe("SelectLanguages", () => {
     jest.clearAllMocks();
   });
 
-  it("should update state with default state", () => {
+  it("should have default state", () => {
     expect(instance.selectedLanguages).toStrictEqual(langs);
   });
   it("should return selectedLanguages when calling getter selectedLangs", () => {
     const getterLangs: Record<TLangs, Languages> = instance.selectedLangs;
     expect(instance.selectedLanguages).toEqual(getterLangs);
   });
-  it("Mutation changeLanguage", () => {
+  it("should change the targetLang on calling changeLanguage mutation", () => {
     instance.changeLanguage(payload);
     expect(instance.selectedLanguages.targetLang).toEqual(payload.value);
   });
   it("should mutate the state with swapLanguages", () => {
-    const langs: Record<TLangs, Languages> = instance.selectedLangs;
+    const langs: Record<TLangs, Languages> = {
+      targetLang: Languages.UK,
+      sourceLang: Languages.EN,
+    };
     instance.swapLanguages();
     expect(instance.selectedLangs).toEqual(langs);
   });
@@ -55,20 +58,12 @@ describe("SelectLanguages", () => {
     const selectedLangsMock = JSON.parse(
       localStorage.getItem("selectedLangs") || "{}"
     );
-    instance.getSelectedLanguages();
-    expect(instance.selectedLanguages).toEqual(selectedLangsMock);
+    expect(instance.selectedLangs).toEqual(selectedLangsMock);
   });
   it("should swap langs with action swapStorageLanguages", () => {
-    const langsCheck: Record<TLangs, Languages> = {
-      targetLang: Languages.UK,
-      sourceLang: Languages.EN,
-    };
     instance.swapStorageLanguages();
-    const selectedLangsMock = JSON.parse(
-      localStorage.getItem("selectedLangs") || "{}"
-    );
-    expect(langsCheck).toEqual(instance.selectedLanguages);
-    expect(langsCheck).toEqual(selectedLangsMock);
+    expect(instance.selectedLangs.targetLang).toEqual(Languages.UK);
+    expect(instance.selectedLangs.sourceLang).toEqual(Languages.EN);
   });
   it("should change lang with action changeStorageLanguages", () => {
     const langsCheck: Record<TLangs, Languages> = {
@@ -77,5 +72,12 @@ describe("SelectLanguages", () => {
     };
     instance.changeStorageLanguages(payload);
     expect(langsCheck).toEqual(instance.selectedLanguages);
+  });
+  it("should set langs from localStorage to selectedLanguages", () => {
+    const selectedLangsMock = JSON.parse(
+      localStorage.getItem("selectedLangs") || "{}"
+    );
+    instance.getSelectedLanguages();
+    expect(selectedLangsMock).toEqual(instance.selectedLangs);
   });
 });
