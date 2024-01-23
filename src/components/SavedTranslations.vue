@@ -73,7 +73,9 @@ export default class SavedTranslations extends Vue {
     height: "28px",
   };
   getTranslations() {
-    this.translations = JSON.parse(localStorage.translations);
+    if (localStorage.translations) {
+      this.translations = JSON.parse(localStorage.translations);
+    }
   }
   removeItem(id: number) {
     const savedItems = JSON.parse(localStorage.translations);
@@ -97,5 +99,4 @@ export default class SavedTranslations extends Vue {
     }
   }
 }
-// TODO: test component, props, emit, watch, getTranslations, removeItem
 </script>
