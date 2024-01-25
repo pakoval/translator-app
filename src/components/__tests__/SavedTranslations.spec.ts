@@ -15,9 +15,16 @@ describe("SavedTranslations", () => {
     targetLang: Languages.EN,
     sourceLang: Languages.UK,
   };
-  const translations: ITranslation[] = [translation];
+  const secondTranslation: ITranslation = {
+    id: 2,
+    inputText: "жінка",
+    translation: "woman",
+    targetLang: Languages.EN,
+    sourceLang: Languages.UK,
+  };
   let wrapper: Wrapper<SavedTranslations>;
   let wrapperBtn: Wrapper<Button>;
+  let vm: any;
 
   beforeEach(() => {
     wrapper = shallowMount(SavedTranslations, {
@@ -27,6 +34,7 @@ describe("SavedTranslations", () => {
       },
     });
     wrapperBtn = shallowMount(Button);
+    vm = wrapper.vm;
   });
 
   it("should exists the component", () => {
@@ -45,10 +53,11 @@ describe("SavedTranslations", () => {
 
   it("should get/set translations from localStorage", () => {
     localStorage.setItem("translations", JSON.stringify([translation]));
+    vm.getTranslations();
     const translationItems = JSON.parse(
       localStorage.getItem("translations") || "{}"
     );
-    expect(translations).toEqual(translationItems);
+    expect(vm.translations).toEqual(translationItems);
   });
 
   it("should emit click event when clicked", async () => {
@@ -57,16 +66,21 @@ describe("SavedTranslations", () => {
   });
 
   it("should to change props data", async () => {
-    const newProp: ITranslation = {
-      id: 2,
-      inputText: "жінка",
-      translation: "woman",
-      targetLang: Languages.EN,
-      sourceLang: Languages.UK,
-    };
     await wrapper.setProps({
-      translation: newProp,
+      translation: secondTranslation,
     });
-    expect(wrapper.props("translation")).toBe(newProp);
+    expect(wrapper.props("translation")).toBe(secondTranslation);
+    expect(vm.translation).toEqual(secondTranslation);
+  });
+
+  it("should remove item by removeItem and check in the markup", () => {
+    localStorage.setItem(
+      "translations",
+      JSON.stringify([translation, secondTranslation])
+    );
+    vm.removeItem(2);
+    expect(vm.translations).toEqual([translation]);
+    const el = wrapper.find(".translations__item-input-text");
+    expect(el.text()).toContain(translation.inputText);
   });
 });
