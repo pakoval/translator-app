@@ -91,7 +91,7 @@ describe("SavedTranslations", () => {
       "translations",
       JSON.stringify([translation, secondTranslation])
     );
-    vm.removeItem(2);
+    vm.removeItem(secondTranslation.id);
     expect(vm.translations).toEqual([translation]);
     const el = wrapper.find(".translations__item-input-text");
     expect(el.text()).toContain(translation.inputText);
