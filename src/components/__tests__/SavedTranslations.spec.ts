@@ -23,7 +23,6 @@ describe("SavedTranslations", () => {
     sourceLang: Languages.UK,
   };
   let wrapper: Wrapper<SavedTranslations>;
-  let wrapperBtn: Wrapper<Button>;
   let vm: any;
 
   beforeEach(() => {
@@ -32,8 +31,10 @@ describe("SavedTranslations", () => {
         openSidebar: true,
         translation,
       },
+      stubs: {
+        Button,
+      },
     });
-    wrapperBtn = shallowMount(Button);
     vm = wrapper.vm;
   });
 
@@ -46,9 +47,15 @@ describe("SavedTranslations", () => {
     expect(wrapper.props("translation")).toEqual(translation);
   });
 
-  it("should set class to the component", () => {
+  it("should set class to the component", async () => {
     const asideEl = wrapper.find("aside");
     expect(asideEl.classes()).toContain("translations");
+    await wrapper.setProps({
+      openSidebar: false,
+    });
+    expect(asideEl.classes()).toEqual(
+      expect.arrayContaining(["translations", "hide"])
+    );
   });
 
   it("should get/set translations from localStorage", () => {
@@ -61,16 +68,22 @@ describe("SavedTranslations", () => {
   });
 
   it("should emit click event when clicked", async () => {
-    await wrapperBtn.trigger("click");
-    expect(wrapperBtn.emitted().click).toBeTruthy();
+    const btn = wrapper.findComponent(Button);
+    await btn.trigger("click");
+    expect(wrapper.emitted().hide).toBeTruthy();
+    const resultHide = vm.hide();
+    expect(resultHide).toBe(false);
   });
 
-  it("should to change props data", async () => {
+  it("should to push to translations a new prop", async () => {
+    expect(vm.translations.length).toEqual(1);
     await wrapper.setProps({
       translation: secondTranslation,
     });
     expect(wrapper.props("translation")).toBe(secondTranslation);
     expect(vm.translation).toEqual(secondTranslation);
+    expect(vm.translations.length).toEqual(2);
+    expect(vm.translations).toEqual([translation, secondTranslation]);
   });
 
   it("should remove item by removeItem and check in the markup", () => {
