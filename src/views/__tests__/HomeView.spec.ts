@@ -52,7 +52,7 @@ describe("HomeView.vue", () => {
     vm = wrapper.vm;
   });
 
-  it("should render correct page", async () => {
+  it("should render correct page", () => {
     expect(wrapper.exists()).toBe(true);
   });
 
@@ -93,7 +93,7 @@ describe("HomeView.vue", () => {
     expect(btn.classes()).toContain("button__copy");
   });
 
-  it("should render Tooltip component", async () => {
+  it("should render Tooltip component", () => {
     const tooltip = wrapper.findComponent(Tooltip);
     expect(tooltip.exists()).toBe(true);
   });
