@@ -45,7 +45,6 @@
           v-clipboard:success="copySuccess"
           v-clipboard:error="copyError"
           :class="copyBtnClass"
-          ref="copy-button"
         >
           <IconSvg :icon="iconCopy" />
         </Button>
