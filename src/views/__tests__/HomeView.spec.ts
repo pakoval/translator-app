@@ -46,12 +46,7 @@ describe("HomeView.vue", () => {
         };
       },
       computed: {
-        selectedLangs: (): Record<TLangs, Languages> => {
-          return {
-            targetLang: Languages.EN,
-            sourceLang: Languages.UK,
-          };
-        },
+        selectedLangs: () => selectLanguagesModule.selectedLanguages,
       },
     });
     vm = wrapper.vm;
@@ -77,6 +72,8 @@ describe("HomeView.vue", () => {
       targetLang: Languages.EN,
       sourceLang: Languages.UK,
     };
+    const l = selectLanguagesModule.selectedLangs;
+    console.log(l);
     expect(vm.selectedLangs).toEqual(languages);
   });
 
@@ -242,14 +239,14 @@ describe("HomeView.vue", () => {
       expect(vm.setTooltipMsg).toHaveBeenCalledWith("Copied successful");
     });
 
-    it("should call copyError", async () => {
+    it("should set error message and clear it after 2s", async () => {
       await vm.copyError();
       expect(vm.copyMessage).toEqual("Error: not copied");
       jest.advanceTimersByTime(2000);
       expect(vm.copyMessage).toEqual("");
     });
 
-    it("should call copySuccess", async () => {
+    it("should set success message and clear it after 2s on copySuccess call", async () => {
       await vm.copySuccess();
       expect(vm.copyMessage).toEqual("Copied successful");
       jest.advanceTimersByTime(2000);
