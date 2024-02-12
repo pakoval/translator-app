@@ -10,7 +10,6 @@ import VueClipboard from "vue-clipboard2";
 import Select from "@/components/Select.vue";
 import TextArea from "@/components/TextArea.vue";
 import { Languages } from "@/languages";
-import { TLangs } from "@/views/types";
 import Loader from "@/components/Loader.vue";
 import Tooltip from "@/components/Tooltip.vue";
 import { selectLanguagesModule } from "@/store/modules/SelectLanguages";
@@ -19,7 +18,22 @@ import { sendToTranslate } from "@/translation/request";
 jest.mock("@/translation/request", () => ({
   sendToTranslate: jest.fn(() => Promise.resolve("привіт")),
 }));
-jest.mock("@/store/modules/SelectLanguages");
+jest.mock("@/store/modules/SelectLanguages", () => {
+  return {
+    selectLanguagesModule: {
+      selectedLangs: {
+        targetLang: "en",
+        sourceLang: "uk",
+      },
+      swapStorageLanguages: jest.fn(),
+      changeStorageLanguages: jest.fn(),
+      getSelectedLanguages: jest.fn(() => ({
+        targetLang: "en",
+        sourceLang: "uk",
+      })),
+    },
+  };
+});
 
 const localVue = createLocalVue();
 localVue.use(VueClipboard);
@@ -45,9 +59,6 @@ describe("HomeView.vue", () => {
           loading: false,
         };
       },
-      computed: {
-        selectedLangs: () => selectLanguagesModule.selectedLanguages,
-      },
     });
     vm = wrapper.vm;
     jest.clearAllMocks();
@@ -69,12 +80,10 @@ describe("HomeView.vue", () => {
 
   it("should be equal getter selectedLangs", () => {
     const languages = {
-      targetLang: Languages.EN,
-      sourceLang: Languages.UK,
+      targetLang: "en",
+      sourceLang: "uk",
     };
-    const l = selectLanguagesModule.selectedLangs;
-    console.log(l);
-    expect(vm.selectedLangs).toEqual(languages);
+    expect(vm.selectedLangs).toStrictEqual(languages);
   });
 
   describe("changeLanguage", () => {
