@@ -17,7 +17,7 @@ import { ILanguage } from "@/views/types";
 import { Languages } from "@/languages";
 @Component
 export default class Select extends Vue {
-  @Prop({ default: [] }) list!: ILanguage[];
+  @Prop({ default: () => [] }) list!: ILanguage[];
   @Prop({ required: true }) selectedOption!: Languages;
   @ModelSync("selectedOption", "change") selected!: Languages;
 }
