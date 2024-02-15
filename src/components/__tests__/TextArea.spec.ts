@@ -29,13 +29,15 @@ describe("TextArea.vue", () => {
   it("should set isReadonly", async () => {
     expect(vm.isReadonly).toBeFalsy();
     await wrapper.setProps({ isReadonly: true });
-    expect(vm.isReadonly).toBeTruthy();
+    expect(wrapper.find("textarea").element.getAttribute("readonly")).toBe(
+      "readonly"
+    );
   });
 
   describe("textareaAdjust", () => {
     const smallText = "hello";
 
-    it("should call textareaAdjust", async () => {
+    it("should emit input event", async () => {
       await wrapper.find("textarea").setValue("k");
       expect(wrapper.emitted("input")).toBeTruthy();
     });
