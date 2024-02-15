@@ -36,15 +36,8 @@ describe("TextArea.vue", () => {
     const smallText = "hello";
 
     it("should call textareaAdjust", async () => {
-      // const textareaAdjustMock = jest.fn();
-      // vm.textareaAdjust = textareaAdjustMock;
-      // await wrapper.find("textarea").setValue("k");
-      // await wrapper.find("textarea").trigger("keydown", {
-      //   key: "k",
-      // });
-      // expect(textareaAdjustMock).toHaveBeenCalledWith(
-      //   expect.any(KeyboardEvent)
-      // );
+      await wrapper.find("textarea").setValue("k");
+      expect(wrapper.emitted("input")).toBeTruthy();
     });
 
     it("should emit value", async () => {
